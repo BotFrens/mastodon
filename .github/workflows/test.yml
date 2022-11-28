@@ -1,0 +1,32 @@
+name: 'Test'
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:10
+        env:
+          POSTGRES_USER: postgresql
+          POSTGRES_PASSWORD: admin
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Setup Ruby and install gems
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+    - name: Run Tests
+      env:
+        DATABASE_URL: postgres://postgresql:admin@localhost:5432/offtheeasel_test
+      run: |
+        RAILS_ENV=test bundle exec rake db:create db:migrate
+        RAILS_ENV=test bundle exec rspec

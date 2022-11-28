@@ -29,6 +29,7 @@ Sidekiq.configure_client do |config|
 end
 
 Sidekiq.logger.level = ::Logger.const_get(ENV.fetch('RAILS_LOG_LEVEL', 'info').upcase.to_s)
+Sidekiq.default_job_options = { 'queue' => 'default_mastodon' }
 
 SidekiqUniqueJobs.configure do |config|
   config.reaper          = :ruby
