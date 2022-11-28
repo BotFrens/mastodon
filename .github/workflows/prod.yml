@@ -29,6 +29,6 @@ jobs:
         uses: docker/build-push-action@v3
         id: build-image
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: mastodon
+          registry: ${{ steps.login-ecr.outputs.registry }}
+          repository: mastodon
           IMAGE_TAG: latest
