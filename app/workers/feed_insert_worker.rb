@@ -3,6 +3,8 @@
 class FeedInsertWorker
   include Sidekiq::Worker
 
+  sidekiq_options queue: 'default_mastodon'
+
   def perform(status_id, id, type = 'home', options = {})
     @type      = type.to_sym
     @status    = Status.find(status_id)

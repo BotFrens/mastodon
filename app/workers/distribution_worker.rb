@@ -5,6 +5,8 @@ class DistributionWorker
   include Redisable
   include Lockable
 
+  sidekiq_options queue: 'default_mastodon'
+
   def perform(status_id, options = {})
     with_lock("distribute:#{status_id}") do
       FanOutOnWriteService.new.call(Status.find(status_id), **options.symbolize_keys)

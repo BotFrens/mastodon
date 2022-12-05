@@ -170,7 +170,7 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
 
     return unless delivered_to_account.following?(@account)
 
-    FeedInsertWorker.perform_async(@status.id, delivered_to_account.id, 'home')
+    FeedInsertWorker.set(queue: 'default_mastodon').perform_async(@status.id, delivered_to_account.id, 'home')
   end
 
   def delivered_to_account

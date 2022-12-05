@@ -1,7 +1,7 @@
 ---
 :concurrency: 5
 :queues:
-  - [default, 8]
+  - [mastodon_default, 8]
   - [push, 6]
   - [ingress, 4]
   - [mailers, 2]
